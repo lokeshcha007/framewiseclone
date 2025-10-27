@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Link, useLocation, Outlet } from 'react-router-dom';
-import { logoutUser } from '../redux/slices/authSlice';
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Link, useLocation, Outlet } from "react-router-dom";
+import { logoutUser } from "../redux/slices/authSlice";
 
 const DashboardLayout = () => {
   const dispatch = useDispatch();
@@ -18,27 +18,29 @@ const DashboardLayout = () => {
   };
 
   const sidebarItems = [
-    { name: 'Dashboard', icon: '📊', path: '/dashboard' },
-    { name: 'Profile', icon: '👤', path: '/profile' },
-    { name: 'Interviews', icon: '🎯', path: '/interviews' },
-    { name: 'Analytics', icon: '📈', path: '/analytics' },
+    { name: "Dashboard", icon: "📊", path: "/dashboard" },
+    { name: "Profile", icon: "👤", path: "/profile" },
+    { name: "Interviews", icon: "🎯", path: "/interviews" },
+    { name: "Analytics", icon: "📈", path: "/analytics" },
+    { name: "Resume", icon: "⚙️", path: "/resume" },
   ];
 
   const managerItems = [
-    { name: 'Groups', icon: '👥', path: '/groups' },
-    { name: 'Schedules', icon: '📅', path: '/schedules' },
-    { name: 'Reports', icon: '📋', path: '/reports' },
+    { name: "Groups", icon: "👥", path: "/groups" },
+    { name: "Schedules", icon: "📅", path: "/schedules" },
+    { name: "Reports", icon: "📋", path: "/reports" },
   ];
 
   const adminItems = [
-    { name: 'Users', icon: '👥', path: '/admin/users' },
-    { name: 'Managers', icon: '👨‍💼', path: '/admin/managers' },
-    { name: 'System', icon: '⚙️', path: '/admin/system' },
+    { name: "Users", icon: "👥", path: "/admin/users" },
+    { name: "Managers", icon: "👨‍💼", path: "/admin/managers" },
+    { name: "System", icon: "⚙️", path: "/admin/system" },
   ];
 
   const getSidebarItems = () => {
-    if (role === 'admin') return [...sidebarItems, ...managerItems, ...adminItems];
-    if (role === 'manager') return [...sidebarItems, ...managerItems];
+    if (role === "admin")
+      return [...sidebarItems, ...managerItems, ...adminItems];
+    if (role === "manager") return [...sidebarItems, ...managerItems];
     return sidebarItems;
   };
 
@@ -52,24 +54,36 @@ const DashboardLayout = () => {
               onClick={toggleSidebar}
               className="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 lg:hidden"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
               </svg>
             </button>
             <div className="flex items-center">
-              <img 
-                src="https://codegnan.com/wp-content/uploads/2025/04/cropped-Codegnan-Destination-New-Logo-e1745992388557.png" 
-                alt="Codegnan Logo" 
+              <img
+                src="https://codegnan.com/wp-content/uploads/2025/04/cropped-Codegnan-Destination-New-Logo-e1745992388557.png"
+                alt="Codegnan Logo"
                 className="h-12 w-auto"
                 onError={(e) => {
-                  e.target.style.display = 'none';
-                  e.target.nextSibling.style.display = 'block';
+                  e.target.style.display = "none";
+                  e.target.nextSibling.style.display = "block";
                 }}
               />
-              <div style={{display: 'none'}} className="text-3xl">🎯</div>
+              <div style={{ display: "none" }} className="text-3xl">
+                🎯
+              </div>
             </div>
           </div>
-          
+
           <div className="flex items-center space-x-4">
             <div className="text-sm text-gray-700">
               Welcome, <span className="font-medium">{user?.name}</span>
@@ -89,7 +103,11 @@ const DashboardLayout = () => {
 
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar */}
-        <aside className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 flex flex-col h-full`}>
+        <aside
+          className={`${
+            sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 flex flex-col h-full`}
+        >
           {/* Navigation */}
           <nav className="flex-1 px-4 py-6 overflow-y-auto">
             <div className="space-y-2">
@@ -99,8 +117,8 @@ const DashboardLayout = () => {
                   to={item.path}
                   className={`flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
                     location.pathname === item.path
-                      ? 'bg-blue-100 text-blue-700'
-                      : 'text-gray-700 hover:bg-gray-100'
+                      ? "bg-blue-100 text-blue-700"
+                      : "text-gray-700 hover:bg-gray-100"
                   }`}
                 >
                   <span className="text-lg">{item.icon}</span>
@@ -114,7 +132,9 @@ const DashboardLayout = () => {
           <div className="p-4 border-t bg-gray-50">
             <div className="text-center">
               <p className="text-xs text-gray-500">Powered by Codegnan</p>
-              <p className="text-xs text-gray-400 mt-1">© 2025 Framewise Clone</p>
+              <p className="text-xs text-gray-400 mt-1">
+                © 2025 Framewise Clone
+              </p>
             </div>
           </div>
         </aside>
