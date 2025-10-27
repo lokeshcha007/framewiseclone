@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import html2pdf from "html2pdf.js";
 
 // Clean Professional Template
 const ProfessionalTemplate = ({ resumeData, themeColor, fontSize }) => (
@@ -302,7 +301,7 @@ const Resume = () => {
     }));
   };
 
-  // PDF Export - Local Generation
+  // Mock PDF Export - API Call Simulation
   const exportToPDF = async () => {
     try {
       // Show loading state
@@ -312,32 +311,50 @@ const Resume = () => {
         downloadButton.textContent = "Generating PDF...";
       }
 
-      // Get the template element
-      const element = document.getElementById("resume-template");
-      if (!element) {
-        throw new Error("Resume template not found");
-      }
-
-      // Configure PDF options
-      const opt = {
-        margin: 0.5,
-        filename: `${resumeData.name || "resume"}.pdf`,
-        image: { type: "jpeg", quality: 0.98 },
-        html2canvas: {
-          scale: 2,
-          useCORS: true,
-          allowTaint: true,
+      // Prepare resume data for API call
+      const resumePayload = {
+        resumeData: {
+          ...resumeData,
+          themeColor,
+          fontSize,
         },
-        jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
+        template: "professional",
+        format: "pdf",
       };
 
-      // Generate PDF
-      await html2pdf().set(opt).from(element).save();
+      console.log("Sending resume data to backend:", resumePayload);
 
-      console.log("PDF generated and downloaded successfully");
+      // Mock API call - simulate network delay
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      // Simulate API call (this will fail but that's expected)
+      try {
+        const response = await fetch("/api/generate-pdf", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(resumePayload),
+        });
+
+        if (response.ok) {
+          console.log("PDF generated successfully via API");
+          alert("PDF generated successfully! (Mock API call)");
+        } else {
+          console.log("API call made but endpoint not available (expected)");
+          alert("API");
+        }
+      } catch (apiError) {
+        // This is expected since the endpoint doesn't exist
+        console.log(
+          "API call attempted (endpoint not available):",
+          apiError.message
+        );
+        alert("Mock API call completed! Check console for resume data.");
+      }
     } catch (error) {
-      console.error("PDF generation error:", error);
-      alert(`Error generating PDF: ${error.message}. Please try again.`);
+      console.error("Error:", error);
+      alert(`Error: ${error.message}`);
     } finally {
       // Reset button state
       const downloadButton = document.querySelector("[data-download-btn]");
